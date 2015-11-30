@@ -48,17 +48,17 @@ class main
 	public function username()
 	{
 		$username = utf8_normalize_nfc(request_var('username', '', true));
-		if(strlen($username) > $this->config['max_name_chars'])
+		if (strlen($username) > $this->config['max_name_chars'])
 		{
 			$return = $this->user->lang('USERNAME_CHARS_ANY_EXPLAIN', $this->config['min_name_chars'], $this->config['max_name_chars']);
 		}
-		elseif(strlen($username) < $this->config['min_name_chars'])
+		else if (strlen($username) < $this->config['min_name_chars'])
 		{
 			$return = $this->user->lang('USERNAME_CHARS_ANY_EXPLAIN', $this->config['min_name_chars'], $this->config['max_name_chars']);
 		}
-		elseif($return = validate_username($username))
+		else if ($return = validate_username($username))
 		{
-			if($return)
+			if ($return)
 			{
 				$return = $this->user->lang($return . '_USERNAME');
 			}
@@ -78,15 +78,15 @@ class main
 	public function password()
 	{
 		$password = utf8_normalize_nfc(request_var('password', '', true));
-		if(strlen($password) > $this->config['max_pass_chars'])
+		if (strlen($password) > $this->config['max_pass_chars'])
 		{
 			$return = $this->user->lang('TOO_LONG_USER_PASSWORD');
 		}
-		elseif(strlen($password) < $this->config['min_pass_chars'])
+		else if (strlen($password) < $this->config['min_pass_chars'])
 		{
 			$return = $this->user->lang('TOO_SHORT_USER_PASSWORD');
 		}
-		elseif($return = validate_password($password))
+		else if ($return = validate_password($password))
 		{
 			$return = $this->user->lang($return . '_PASSWORD');
 		}
@@ -105,7 +105,7 @@ class main
 	public function email()
 	{
 		$email = utf8_normalize_nfc(request_var('email', '', true));
-		if($return = phpbb_validate_email($email))
+		if ($return = phpbb_validate_email($email))
 		{
 			$return = $this->user->lang($return . '_EMAIL');
 		}
