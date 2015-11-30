@@ -1,0 +1,16 @@
+services:
+    tas2580.regcheck.main:
+        class: tas2580\regcheck\controller\main
+        arguments:
+            - @config
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+    tas2580.regcheck.listener:
+        class: tas2580\regcheck\event\listener
+        arguments:
+            - @controller.helper
+            - @template
+            - @user
+        tags:
+            - { name: event.listener }

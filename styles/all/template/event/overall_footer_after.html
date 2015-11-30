@@ -1,0 +1,110 @@
+<!-- IF S_REGISTRATION -->
+<script>
+(function($) {
+	'use strict';
+	$.fn.checkUsername = function() {
+		return this.each(function() {
+			var inputField = $('input[name=username]');
+			function trigger() {
+				var res = check(inputField.val());
+			}
+			function check(name)
+			{
+				$.get('{U_CHECK_USERNAME}?username='+name,function(returndata){
+
+					if(returndata == 0)
+					{
+						inputField.css('background-color','#a9f5a9');
+						$('#username_status').html('{L_USERNAME_FREE}');
+					}
+					else
+					{
+						inputField.css('background-color','#f5a9a9');
+						$('#username_status').html(returndata);
+					}
+				 });
+			}
+			inputField.bind('blur', trigger).after('<div id="username_status"></div>');
+		});
+	};
+	$.fn.checkEmail = function() {
+		return this.each(function() {
+			var inputField = $('input[name=email]');
+			function trigger() {
+				var res = check(inputField.val());
+			}
+			function check(email)
+			{
+				$.get('{U_CHECK_EMAIL}?email='+email,function(returndata){
+
+					if(returndata == 0)
+					{
+						inputField.css('background-color','#a9f5a9');
+						$('#email_status').html('{L_EMAIL_GOOD}');
+					}
+					else
+					{
+						inputField.css('background-color','#f5a9a9');
+						$('#email_status').html(returndata);
+					}
+				 });
+			}
+			inputField.bind('blur', trigger).after('<div id="email_status"></div>');
+		});
+	};
+	$.fn.checkPassword = function() {
+		return this.each(function() {
+			var inputField = $('input[name=new_password]');
+			function trigger() {
+				var res = check(inputField.val());
+			}
+			function check(password)
+			{
+				$.get('{U_CHECK_PASSWORD}?password='+password,function(returndata){
+
+					if(returndata == 0)
+					{
+						inputField.css('background-color','#a9f5a9');
+						$('#password_status').html('{L_PASSWORD_GOOD}');
+					}
+					else
+					{
+						inputField.css('background-color','#f5a9a9');
+						$('#password_status').html(returndata);
+					}
+				 });
+			}
+			inputField.bind('blur', trigger).after('<div id="password_status"></div>');
+		});
+	};
+	$.fn.confirmPassword = function() {
+		return this.each(function() {
+			var inputField = $('input[name=password_confirm]');
+			function trigger() {
+				var res = check(inputField.val());
+			}
+			function check(password)
+			{
+				if($('input[name=new_password]').val() != inputField.val())
+				{
+					inputField.css('background-color','#f5a9a9');
+					$('#password_confirm_status').html('{L_NEW_PASSWORD_ERROR}');
+				}
+				else
+				{
+					inputField.css('background-color','#a9f5a9');
+					$('#password_confirm_status').html('{L_NEW_PASSWORD_GOOD}');
+				}
+			}
+			inputField.bind('blur', trigger).after('<div id="password_confirm_status"></div>');
+		});
+	};
+	$(function() {
+		$('input[name=username]').checkUsername();
+		$('input[name=email]').checkEmail();
+		$('input[name=new_password]').checkPassword();
+		$('input[name=password_confirm]').confirmPassword();
+	});
+})(jQuery);
+</script>
+<!-- ENDIF -->
