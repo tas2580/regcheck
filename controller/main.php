@@ -88,7 +88,7 @@ class main
 		}
 		else if ($return = validate_password($password))
 		{
-			$return = $this->user->lang($return . '_PASSWORD');
+			$return = $this->user->lang($return . '_NEW_PASSWORD');
 		}
 		else
 		{
