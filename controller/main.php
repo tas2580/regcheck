@@ -111,7 +111,7 @@ class main
 		}
 		else if ($return = validate_user_email($email))
 		{
-			$return = $this->user->lang($return . '_EMAIL');
+			$return = (empty($this->user->lang[$return . '_EMAIL'])) ? $return : $return . '_EMAIL';
 		}
 		else
 		{
