@@ -104,8 +104,12 @@ class main
 	 */
 	public function email()
 	{
-		$email = utf8_normalize_nfc(request_var('email', '', true));
+		$email = strtolower(request_var('email', ''));
 		if ($return = phpbb_validate_email($email))
+		{
+			$return = $this->user->lang($return . '_EMAIL');
+		}
+		else if ($return = validate_user_email($email))
 		{
 			$return = $this->user->lang($return . '_EMAIL');
 		}
