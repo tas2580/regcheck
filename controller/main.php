@@ -72,7 +72,7 @@ class main
 		$error = $this->set_error($error);
 		if (sizeof($error))
 		{
-			return new Response(implode('', $error));
+			return new Response(implode('<br>', $error));
 		}
 
 		return new Response($this->user->lang('USERNAME_FREE'));
@@ -98,7 +98,7 @@ class main
 
 		if (sizeof($error))
 		{
-			return new Response(implode('', $error));
+			return new Response(implode('<br>', $error));
 		}
 
 		return new Response($this->user->lang('PASSWORD_GOOD'));
@@ -123,7 +123,7 @@ class main
 		$error = $this->set_error($error);
 		if (sizeof($error))
 		{
-			return new Response(implode('', $error));
+			return new Response(implode('<br>', $error));
 		}
 
 		return new Response($this->user->lang('EMAIL_GOOD'));
