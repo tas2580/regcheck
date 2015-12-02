@@ -35,5 +35,5 @@ $lang = array_merge($lang, array(
 	'USERNAME_FREE'						=> 'The user name is still available!',
 	'EMAIL_GOOD'						=> 'The e-mail address is valid!',
 	'PASSWORD_GOOD'						=> 'The password can be used!',
-	'NEW_PASSWORD_GOOD'					=> 'The Passwords are the same!',
+	'NEW_PASSWORD_GOOD'					=> 'The passwords are the same!',
 ));

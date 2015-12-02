@@ -86,15 +86,16 @@ class main
 	public function password()
 	{
 		$data = array(
-			'password'			=> $this->request->variable('password', '', true),
+			'new_password'			=> $this->request->variable('new_password', '', true),
 		);
 		$error = validate_data($data, array(
-			'password'		=> array(
+			'new_password'		=> array(
 				array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
 				array('password')),
 		));
 
 		$error = $this->set_error($error);
+
 		if (sizeof($error))
 		{
 			return new Response(implode('', $error));

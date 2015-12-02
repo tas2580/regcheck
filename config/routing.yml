@@ -1,9 +1,9 @@
 tas2580_regcheck_username:
-    pattern: /regcheck/username.html
+    pattern: /username
     defaults: { _controller: tas2580.regcheck.main:username }
 tas2580_regcheck_password:
-    pattern: /regcheck/password.html
+    pattern: /password
     defaults: { _controller: tas2580.regcheck.main:password }
 tas2580_regcheck_email:
-    pattern: /regcheck/email.html
+    pattern: /email
     defaults: { _controller: tas2580.regcheck.main:email }

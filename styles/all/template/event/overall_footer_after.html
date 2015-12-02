@@ -56,9 +56,9 @@
 			function trigger() {
 				var res = check(inputField.val());
 			}
-			function check(password)
+			function check(new_password)
 			{
-				$.get('{U_CHECK_PASSWORD}?password='+password,function(returndata){
+				$.get('{U_CHECK_PASSWORD}?new_password='+new_password,function(returndata){
 
 					$('#password_status').html(returndata);
 					if($.trim(returndata) == '{L_PASSWORD_GOOD}')
