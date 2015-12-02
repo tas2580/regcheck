@@ -12,12 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class main
 {
+
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
 	/** @var \phpbb\user */
 	protected $user;
+
 	/** @var $phpbb_root_path */
 	protected $phpbb_root_path;
+
 	/** @var $php_ext */
 	protected $php_ext;
 
@@ -25,19 +32,25 @@ class main
 	* Constructor
 	*
 	* @param \phpbb\config\config			$config				Config object
+	* @param \phpbb\request\request			$request			Request object
 	* @param \phpbb\user					$user				User object
-	* @param string						$phpbb_root_path
-	* @param string						$php_ext
+	* @param string							$phpbb_root_path
+	* @param string							$php_ext
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\request\request $request, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->config = $config;
+		$this->request = $request;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
-		include($this->phpbb_root_path . 'includes/functions_user.' . $php_ext);
+		if (!function_exists('validate_data'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+		}
 		$this->user->add_lang('ucp');
+		$this->user->add_lang_ext('tas2580/regcheck', 'common');
 	}
 
 	/**
@@ -47,27 +60,22 @@ class main
 	 */
 	public function username()
 	{
-		$username = utf8_normalize_nfc(request_var('username', '', true));
-		if (strlen($username) > $this->config['max_name_chars'])
+		$data = array(
+			'username'			=> utf8_normalize_nfc($this->request->variable('username', '', true)),
+		);
+		$error = validate_data($data, array(
+			'username'			=> array(
+				array('string', false, $this->config['min_name_chars'], $this->config['max_name_chars']),
+				array('username', '')),
+		));
+
+		$error = $this->set_error($error);
+		if (sizeof($error))
 		{
-			$return = $this->user->lang('USERNAME_CHARS_ANY_EXPLAIN', $this->config['min_name_chars'], $this->config['max_name_chars']);
+			return new Response(implode('', $error));
 		}
-		else if (strlen($username) < $this->config['min_name_chars'])
-		{
-			$return = $this->user->lang('USERNAME_CHARS_ANY_EXPLAIN', $this->config['min_name_chars'], $this->config['max_name_chars']);
-		}
-		else if ($return = validate_username($username))
-		{
-			if ($return)
-			{
-				$return = $this->user->lang($return . '_USERNAME');
-			}
-		}
-		else
-		{
-			$return = 0;
-		}
-		return new Response($return);
+
+		return new Response($this->user->lang('USERNAME_FREE'));
 	}
 
 	/**
@@ -77,24 +85,22 @@ class main
 	 */
 	public function password()
 	{
-		$password = utf8_normalize_nfc(request_var('password', '', true));
-		if (strlen($password) > $this->config['max_pass_chars'])
+		$data = array(
+			'password'			=> $this->request->variable('password', '', true),
+		);
+		$error = validate_data($data, array(
+			'password'		=> array(
+				array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
+				array('password')),
+		));
+
+		$error = $this->set_error($error);
+		if (sizeof($error))
 		{
-			$return = $this->user->lang('TOO_LONG_USER_PASSWORD');
+			return new Response(implode('', $error));
 		}
-		else if (strlen($password) < $this->config['min_pass_chars'])
-		{
-			$return = $this->user->lang('TOO_SHORT_USER_PASSWORD');
-		}
-		else if ($return = validate_password($password))
-		{
-			$return = $this->user->lang($return . '_NEW_PASSWORD');
-		}
-		else
-		{
-			$return = 0;
-		}
-		return new Response($return);
+
+		return new Response($this->user->lang('PASSWORD_GOOD'));
 	}
 
 	/**
@@ -104,19 +110,34 @@ class main
 	 */
 	public function email()
 	{
-		$email = strtolower(request_var('email', ''));
-		if ($return = phpbb_validate_email($email))
+		$data = array(
+			'email'			=> $this->request->variable('email', '', true),
+		);
+		$error = validate_data($data, array(
+			'email'				=> array(
+				array('string', false, 6, 60),
+				array('user_email')),
+		));
+
+		$error = $this->set_error($error);
+		if (sizeof($error))
 		{
-			$return = $this->user->lang($return . '_EMAIL');
+			return new Response(implode('', $error));
 		}
-		else if ($return = validate_user_email($email))
-		{
-			$return = (empty($this->user->lang[$return . '_EMAIL'])) ? $return : $return . '_EMAIL';
-		}
-		else
-		{
-			$return = 0;
-		}
-		return new Response($return);
+
+		return new Response($this->user->lang('EMAIL_GOOD'));
+	}
+
+	/**
+	 * Check errors
+	 *
+	 * @return object
+	 */
+	private function set_error($error)
+	{
+		// Replace "error" strings with their real, localised form
+		$error = array_map(array($this->user, 'lang'), $error);
+
+		return $error;
 	}
 }

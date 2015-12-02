@@ -59,7 +59,7 @@ class listener implements EventSubscriberInterface
 	* @return null
 	* @access public
 	*/
-	public function ucp_register_data_before($event)
+	public function ucp_register_data_before()
 	{
 		$this->user->add_lang_ext('tas2580/regcheck', 'common');
 

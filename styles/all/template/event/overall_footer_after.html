@@ -12,15 +12,14 @@
 			{
 				$.get('{U_CHECK_USERNAME}?username='+name,function(returndata){
 
-					if(returndata == 0)
+					$('#username_status').html(returndata);
+					if($.trim(returndata) == '{L_USERNAME_FREE}')
 					{
 						inputField.css('background-color','#a9f5a9');
-						$('#username_status').html('{L_USERNAME_FREE}');
 					}
 					else
 					{
 						inputField.css('background-color','#f5a9a9');
-						$('#username_status').html(returndata);
 					}
 				 });
 			}
@@ -37,15 +36,14 @@
 			{
 				$.get('{U_CHECK_EMAIL}?email='+email,function(returndata){
 
-					if(returndata == 0)
+					$('#email_status').html(returndata);
+					if($.trim(returndata) == '{L_EMAIL_GOOD}')
 					{
 						inputField.css('background-color','#a9f5a9');
-						$('#email_status').html('{L_EMAIL_GOOD}');
 					}
 					else
 					{
 						inputField.css('background-color','#f5a9a9');
-						$('#email_status').html(returndata);
 					}
 				 });
 			}
@@ -62,15 +60,14 @@
 			{
 				$.get('{U_CHECK_PASSWORD}?password='+password,function(returndata){
 
-					if(returndata == 0)
+					$('#password_status').html(returndata);
+					if($.trim(returndata) == '{L_PASSWORD_GOOD}')
 					{
 						inputField.css('background-color','#a9f5a9');
-						$('#password_status').html('{L_PASSWORD_GOOD}');
 					}
 					else
 					{
 						inputField.css('background-color','#f5a9a9');
-						$('#password_status').html(returndata);
 					}
 				 });
 			}
