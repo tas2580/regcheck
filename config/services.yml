@@ -3,6 +3,7 @@ services:
         class: tas2580\regcheck\controller\main
         arguments:
             - @config
+            - @request
             - @user
             - %core.root_path%
             - %core.php_ext%
