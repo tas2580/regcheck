@@ -64,9 +64,7 @@ class listener implements EventSubscriberInterface
 		$this->user->add_lang_ext('tas2580/regcheck', 'common');
 
 		$this->template->assign_vars(array(
-			'U_CHECK_USERNAME'	=> $this->helper->route('tas2580_regcheck_username', array()),
-			'U_CHECK_EMAIL'		=> $this->helper->route('tas2580_regcheck_email', array()),
-			'U_CHECK_PASSWORD'	=> $this->helper->route('tas2580_regcheck_password', array()),
+			'U_REGCHECK'			=> $this->helper->route('tas2580_regcheck', array()),
 		));
 	}
 }

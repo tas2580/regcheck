@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - AJAX Registration check
- * @copyright (c) 2015 tas2580 (https://tas2580.net)
+* @copyright (c) 2015 tas2580 (https://tas2580.net)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class main
 {
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -44,94 +43,119 @@ class main
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+	}
+
+	public function check()
+	{
+		$this->user->add_lang('ucp');
+		$this->user->add_lang_ext('tas2580/regcheck', 'common');
 
 		if (!function_exists('validate_data'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
-		$this->user->add_lang('ucp');
-		$this->user->add_lang_ext('tas2580/regcheck', 'common');
-	}
 
-	/**
-	 * Check username
-	 *
-	 * @return object
-	 */
-	public function username()
-	{
 		$data = array(
-			'username'			=> utf8_normalize_nfc($this->request->variable('username', '', true)),
-		);
-		$error = validate_data($data, array(
-			'username'			=> array(
-				array('string', false, $this->config['min_name_chars'], $this->config['max_name_chars']),
-				array('username', '')),
-		));
-
-		$error = $this->set_error($error);
-		if (sizeof($error))
-		{
-			return new Response(implode('<br>', $error));
-		}
-
-		return new Response($this->user->lang('USERNAME_FREE'));
-	}
-
-	/**
-	 * Check password
-	 *
-	 * @return object
-	 */
-	public function password()
-	{
-		$data = array(
-			'new_password'			=> $this->request->variable('new_password', '', true),
-		);
-		$error = validate_data($data, array(
-			'new_password'		=> array(
-				array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
-				array('password')),
-		));
-
-		$error = $this->set_error($error);
-
-		if (sizeof($error))
-		{
-			return new Response(implode('<br>', $error));
-		}
-
-		return new Response($this->user->lang('PASSWORD_GOOD'));
-	}
-
-	/**
-	 * Check email
-	 *
-	 * @return object
-	 */
-	public function email()
-	{
-		$data = array(
+			'username'		=> utf8_normalize_nfc($this->request->variable('username', '', true)),
+			'new_password'	=> $this->request->variable('new_password', '', true),
+			'password_confirm'	=> $this->request->variable('password_confirm', '', true),
 			'email'			=> $this->request->variable('email', '', true),
 		);
-		$error = validate_data($data, array(
-			'email'				=> array(
-				array('string', false, 6, 60),
-				array('user_email')),
-		));
 
-		$error = $this->set_error($error);
-		if (sizeof($error))
+		/**
+		 * Check username
+		 */
+		if(!empty($data['username']))
 		{
-			return new Response(implode('<br>', $error));
+			$error = validate_data($data, array(
+				'username'			=> array(
+					array('string', false, $this->config['min_name_chars'], $this->config['max_name_chars']),
+					array('username', '')),
+			));
+
+			$this->return_data($error, 'USERNAME_FREE');
 		}
 
-		return new Response($this->user->lang('EMAIL_GOOD'));
+		/**
+		 * Check password confirm
+		 */
+		elseif(!empty($data['password_confirm']))
+		{
+			$error = validate_data($data, array(
+				'password_confirm'		=> array(
+					array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
+					array('password')),
+			));
+			if($data['new_password'] <> $data['password_confirm'])
+			{
+				$error = array('NEW_PASSWORD_ERROR');
+			}
+			$this->return_data($error, 'NEW_PASSWORD_GOOD');
+		}
+
+		/**
+		 * Check password
+		 */
+		elseif(!empty($data['new_password']))
+		{
+			$error = validate_data($data, array(
+				'new_password'		=> array(
+					array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
+					array('password')),
+			));
+
+			$this->return_data($error, 'PASSWORD_GOOD');
+		}
+
+		/**
+		 * Check email
+		 */
+		elseif(!empty($data['email']))
+		{
+			$error = validate_data($data, array(
+				'email'				=> array(
+					array('string', false, 6, 60),
+					array('user_email')),
+			));
+
+			$this->return_data($error, 'EMAIL_GOOD');
+		}
+		else
+		{
+			$this->return_data(array(''), '');
+		}
+	}
+
+	/**
+	 * Return data as JSON
+	 *
+	 * @param string	$error		Error message
+	 * @param string	$message	Success message
+	 */
+	private function return_data($error, $message)
+	{
+		$error = $this->set_error($error);
+		$return = array();
+
+		if (sizeof($error))
+		{
+			$return['code'] = 0;
+			$return['message'] = implode('<br>', $error);
+		}
+		else
+		{
+			$return['code'] = 1;
+			$return['message'] = $this->user->lang($message);
+		}
+
+		$json_response = new \phpbb\json_response;
+		$json_response->send($return);
 	}
 
 	/**
 	 * Check errors
 	 *
+	 * @param string	$error	Error message
 	 * @return object
 	 */
 	private function set_error($error)
