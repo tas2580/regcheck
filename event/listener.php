@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - AJAX Registration check
-* @copyright (c) 2015 tas2580 (https://tas2580.net)
+* @copyright (c) 2016 tas2580 (https://tas2580.net)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -26,8 +26,8 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\controller\helper				$helper				Helper Object
-	* @param \phpbb\template\template			$template				Template object
+	* @param \phpbb\controller\helper			$helper				Helper Object
+	* @param \phpbb\template\template			$template			Template object
 	* @param \phpbb\user						$user				User object
 	* @access public
 	*/

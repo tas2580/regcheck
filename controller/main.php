@@ -2,13 +2,11 @@
 /**
 *
 * @package phpBB Extension - AJAX Registration check
-* @copyright (c) 2015 tas2580 (https://tas2580.net)
+* @copyright (c) 2016 tas2580 (https://tas2580.net)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
 namespace tas2580\regcheck\controller;
-
-use Symfony\Component\HttpFoundation\Response;
 
 class main
 {
@@ -56,10 +54,10 @@ class main
 		}
 
 		$data = array(
-			'username'		=> utf8_normalize_nfc($this->request->variable('username', '', true)),
-			'new_password'	=> $this->request->variable('new_password', '', true),
+			'username'			=> utf8_normalize_nfc($this->request->variable('username', '', true)),
+			'new_password'		=> $this->request->variable('new_password', '', true),
 			'password_confirm'	=> $this->request->variable('password_confirm', '', true),
-			'email'			=> $this->request->variable('email', '', true),
+			'email'				=> $this->request->variable('email', '', true),
 		);
 
 		/**
@@ -79,7 +77,7 @@ class main
 		/**
 		 * Check password confirm
 		 */
-		elseif (!empty($data['password_confirm']))
+		else if (!empty($data['password_confirm']))
 		{
 			$error = validate_data($data, array(
 				'password_confirm'		=> array(
@@ -96,7 +94,7 @@ class main
 		/**
 		 * Check password
 		 */
-		elseif (!empty($data['new_password']))
+		else if (!empty($data['new_password']))
 		{
 			$error = validate_data($data, array(
 				'new_password'		=> array(
@@ -110,7 +108,7 @@ class main
 		/**
 		 * Check email
 		 */
-		elseif (!empty($data['email']))
+		else if (!empty($data['email']))
 		{
 			$error = validate_data($data, array(
 				'email'				=> array(

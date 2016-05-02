@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - AJAX Registration check
- * @copyright (c) 2015 tas2580 (https://tas2580.net)
+* @copyright (c) 2015 tas2580 (https://tas2580.net)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 //
 $lang = array_merge($lang, array(
 	'USERNAME_FREE'						=> 'Имя пользователя свободно для регистрации!',
-	'EMAIL_GOOD'							=> 'e-mail корректный!',
+	'EMAIL_GOOD'						=> 'e-mail корректный!',
 	'PASSWORD_GOOD'						=> 'Пароль удовлетворяет требованиям!',
 	'NEW_PASSWORD_GOOD'					=> 'Пароли подтверждены!',
 ));

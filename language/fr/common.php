@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - AJAX Registration check
- * @copyright (c) 2015 tas2580 (https://tas2580.net)
+* @copyright (c) 2016 tas2580 (https://tas2580.net)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -33,7 +33,7 @@ if (empty($lang) || !is_array($lang))
 //
 $lang = array_merge($lang, array(
 	'USERNAME_FREE'						=> 'Le nom d’utilisateur est disponible!',
-	'EMAIL_GOOD'							=> 'Votre adresse e-mail est valide!',
+	'EMAIL_GOOD'						=> 'Votre adresse e-mail est valide!',
 	'PASSWORD_GOOD'						=> 'Votre mot de passe est valide!',
 	'NEW_PASSWORD_GOOD'					=> 'Vos mot de passes sont identique!',
 ));
