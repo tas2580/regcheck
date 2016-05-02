@@ -65,7 +65,7 @@ class main
 		/**
 		 * Check username
 		 */
-		if(!empty($data['username']))
+		if (!empty($data['username']))
 		{
 			$error = validate_data($data, array(
 				'username'			=> array(
@@ -79,14 +79,14 @@ class main
 		/**
 		 * Check password confirm
 		 */
-		elseif(!empty($data['password_confirm']))
+		elseif (!empty($data['password_confirm']))
 		{
 			$error = validate_data($data, array(
 				'password_confirm'		=> array(
 					array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
 					array('password')),
 			));
-			if($data['new_password'] <> $data['password_confirm'])
+			if ($data['new_password'] <> $data['password_confirm'])
 			{
 				$error = array('NEW_PASSWORD_ERROR');
 			}
@@ -96,7 +96,7 @@ class main
 		/**
 		 * Check password
 		 */
-		elseif(!empty($data['new_password']))
+		elseif (!empty($data['new_password']))
 		{
 			$error = validate_data($data, array(
 				'new_password'		=> array(
@@ -110,7 +110,7 @@ class main
 		/**
 		 * Check email
 		 */
-		elseif(!empty($data['email']))
+		elseif (!empty($data['email']))
 		{
 			$error = validate_data($data, array(
 				'email'				=> array(
