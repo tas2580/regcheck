@@ -127,7 +127,7 @@ class main
 	/**
 	 * Return data as JSON
 	 *
-	 * @param string	$error		Error message
+	 * @param array	$error		Error message
 	 * @param string	$message	Success message
 	 */
 	private function return_data($error, $message)

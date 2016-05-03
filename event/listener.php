@@ -55,7 +55,6 @@ class listener implements EventSubscriberInterface
 	/**
 	* Send AJAX URLs to template
 	*
-	* @param object $event The event object
 	* @return null
 	* @access public
 	*/
