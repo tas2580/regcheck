@@ -18,9 +18,11 @@ class listener implements EventSubscriberInterface
 {
 	/** @var \phpbb\controller\helper */
 	protected $helper;
+
 	/** @var \phpbb\template\template */
 	protected $template;
-	/** @var \phpbb\user\user */
+
+	/** @var \phpbb\user */
 	protected $user;
 
 	/**
@@ -45,7 +47,7 @@ class listener implements EventSubscriberInterface
 	* @static
 	* @access public
 	*/
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return array(
 			'core.ucp_register_data_before'			=> 'ucp_register_data_before',
