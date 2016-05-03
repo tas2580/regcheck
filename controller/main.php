@@ -153,8 +153,8 @@ class main
 	/**
 	 * Check errors
 	 *
-	 * @param string	$error	Error message
-	 * @return object
+	 * @param array	$error	Error message
+	 * @return array			Error message
 	 */
 	private function set_error($error)
 	{
