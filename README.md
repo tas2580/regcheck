@@ -1,6 +1,8 @@
-<img src="https://tas2580.net/downloads/phpbb-ajax-regcheck/image.png" width="600" height="80" alt="phpBB 3.1 - SEO URLs" />
+# phpBB AJAX registration check
 
 This is an extension for the phpBB forums software. You need an installation of phpBB 3.1.x to use this.
+
+[![Download](https://raw.githubusercontent.com/tas2580/privacyprotection/master/.github/button_download.png)](https://tas2580.net/downloads/phpbb-ajax-regcheck/) [![Donate](https://raw.githubusercontent.com/tas2580/privacyprotection/master/.github/button_donate.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S8PXGAJZP9GWN)
 
 DESCRIPTION
 -------
